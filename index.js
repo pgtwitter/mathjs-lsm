@@ -1,8 +1,15 @@
-function lsm(g, y) {
+function lsm(g, y, lamda = 0.0) {
 	const qr = math.qr(g);
 	const Qt = math.transpose(qr.Q);
 	const Rt = math.transpose(qr.R);
-	const RtR = math.multiply(Rt, qr.R);
+	let RtR = math.multiply(Rt, qr.R);
+	if (lamda != 0.0) {
+		const RtR_size = math.size(RtR)
+		const I = math.eye(RtR_size[0])._data;
+		const LamdaI = math.multiply(lamda, I);
+		const RtRaddLamda = math.add(RtR, LamdaI);
+		RtR = RtRaddLamda;
+	}
 	const RtR_i = math.inv(RtR);
 	const RtR_iRt = math.multiply(RtR_i, Rt);
 	const RtR_iRtQt = math.multiply(RtR_iRt, Qt);
