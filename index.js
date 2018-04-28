@@ -21,7 +21,7 @@ console.log(g, ys);
 
 Array.forEach([0.0, 0.1, 1, 2, 3], function(lamda, i) {
 	const prediction = lamda == 0 ? mathjsLsm.lsm(g, ys) : mathjsLsm.lsmL2(g, ys, lamda);
-	const r = mathjsLsm.residual(prediction, fn, xs, ys);
+	const r = mathjsLsm.residual(prediction, g, ys);
 	console.log('lamda', lamda, 'prediction', prediction, 'residual', r);
 	utils.drawFormula('c', prediction, fn, 'rgb(0, ' + (255 - i * 61) + ',0)')
 });

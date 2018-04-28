@@ -26,13 +26,11 @@
 			const a = math.multiply(RtRaddL_iRtQt, y);
 			return math.flatten(a);
 		},
-		residual: function(coeff, fn, x, y) {
-			let sum = 0;
-			for (let i = 0; i < x.length; i++) {
-				const e = fn(coeff, x[i][0]) - y[i][0];
-				sum += Math.sqrt(e * e);
-			}
-			return sum;
+		residual: function(coeff, g, y) {
+			const pred = math.reshape(math.multiply(g, coeff), [math.size(g)[0], 1]);
+			const err = math.add(pred, math.multiply(-1.0, y));
+			const sqrt_err = math.flatten(math.multiply(math.transpose(err), err))[0];
+			return sqrt_err;
 		}
 	}
 })();
