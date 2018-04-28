@@ -12,7 +12,7 @@ function lsm(g, y) {
 
 function residual(coeff, x, y, fn) {
 	let sum = 0;
-	for (let i = 0; i < g.length; i++) {
+	for (let i = 0; i < x.length; i++) {
 		const e = fn(coeff, x[i][0]) - y[i][0];
 		sum += Math.sqrt(e * e);
 	}
