@@ -1,33 +1,3 @@
-function lsm(g, y, lamda = 0.0) {
-	const qr = math.qr(g);
-	const Qt = math.transpose(qr.Q);
-	const Rt = math.transpose(qr.R);
-	let RtR = math.multiply(Rt, qr.R);
-	if (lamda != 0.0) {
-		const RtR_size = math.size(RtR)
-		const I = math.eye(RtR_size[0])._data;
-		const LamdaI = math.multiply(lamda, I);
-		const RtRaddLamda = math.add(RtR, LamdaI);
-		RtR = RtRaddLamda;
-	}
-	const RtR_i = math.inv(RtR);
-	const RtR_iRt = math.multiply(RtR_i, Rt);
-	const RtR_iRtQt = math.multiply(RtR_iRt, Qt);
-	const a = math.multiply(RtR_iRtQt, y);
-	return math.flatten(a);
-}
-
-function residual(coeff, x, y, fn) {
-	let sum = 0;
-	for (let i = 0; i < x.length; i++) {
-		const e = fn(coeff, x[i][0]) - y[i][0];
-		sum += Math.sqrt(e * e);
-	}
-	return sum;
-}
-
-//---------------------------------------------------------
-
 function fn(a, x) {
 	return a[0] + a[1] * x + a[2] * x * x + a[3] * x * x * x;
 }
@@ -45,14 +15,12 @@ function d(n, ans, f) {
 	return [g, ys, xs];
 }
 
-//---------------------------------------------------------
-
 const ans = [-0.10, 0.40, -0.90, 1.6];
 const [g, ys, xs] = d(100, ans, fn)
 console.log(g, ys);
 
 Array.forEach([0.0, 0.01, 0.1, 1], function(lamda) {
-	const prediction = lsm(g, ys, lamda);
-	const r = residual(prediction, xs, ys, fn);
+	const prediction = mathjsLsm.lsm(g, ys, lamda);
+	const r = mathjsLsm.residual(prediction, fn, xs, ys);
 	console.log('lamda', lamda, 'prediction', prediction, 'residual', r);
 });
