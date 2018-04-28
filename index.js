@@ -7,7 +7,7 @@ function d(n, ans, f) {
 	const g = [];
 	const ys = [];
 	for (let i = 0; i < n; i++) {
-		const x = (Math.random() - 0.5) * 1.0;
+		const x = (Math.random() - 0.5) * 1.2;
 		xs.push([x]);
 		g.push([1, x, x * x, x * x * x]);
 		ys.push([f(ans, x) + 0.1 * (Math.random() - 0.5)]);
