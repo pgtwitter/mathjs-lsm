@@ -51,8 +51,8 @@ const ans = [-0.10, 0.40, -0.90, 1.6];
 const [g, ys, xs] = d(100, ans, fn)
 console.log(g, ys);
 
-const prediction = lsm(g, ys);
-console.log('prediction', prediction);
-
-const r = residual(prediction, xs, ys, fn);
-console.log('residual', r);
+Array.forEach([0.0, 0.01, 0.1, 1], function(lamda) {
+	const prediction = lsm(g, ys, lamda);
+	const r = residual(prediction, xs, ys, fn);
+	console.log('lamda', lamda, 'prediction', prediction, 'residual', r);
+});
